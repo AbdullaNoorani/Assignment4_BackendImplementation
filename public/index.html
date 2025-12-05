@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Image Search & Upload</title>
+</head>
+
+<body style="font-family: Arial; padding: 30px;">
+
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+        function App() { const [searchText, setSearchText] = React.useState(""); const [imageUrl, setImageUrl] = React.useState("/default.jpg"); const [uploadName, setUploadName] = React.useState(""); const [file, setFile] = React.useState(null); const [status,
+        setStatus] = React.useState(""); function searchImage() { fetch("/api/getImage?name=" + encodeURIComponent(searchText)) .then(res => res.json()) .then(data => { setImageUrl(data.url); }); } function uploadImage() { const formData = new FormData();
+        if (file) { formData.append("image", file); } fetch("/api/upload?name=" + encodeURIComponent(uploadName), { method: "POST", body: formData }) .then(res => res.json()) .then(data => { setStatus(data.message || ""); if ( searchText && uploadName
+        && uploadName.toLowerCase().includes(searchText.toLowerCase()) ) { searchImage(); } }); } return (
+        <div>
+            <h2>Search for an Image</h2>
+
+            <input value={searchText} onChange={e=> setSearchText(e.target.value)} placeholder="Type something like 'tom'" style={{ width: "300px", padding: "8px" }} />
+
+            <button onClick={searchImage} style={{ padding: "8px", marginLeft: "8px" }}>
+                        Show Image
+                    </button>
+
+            <br /><br />
+
+            <img id="imgBox" src={imageUrl} alt="Result" width="300" style={{ border: "1px solid #ccc" }} />
+
+            <hr />
+
+            <h2>Upload or Replace Character Image</h2>
+
+            <input value={uploadName} onChange={e=> setUploadName(e.target.value)} placeholder="Character name (tom / jerry / dog)" style={{ width: "300px", padding: "8px" }} />
+            <br /><br />
+            <input type="file" onChange={e=> setFile(e.target.files[0] || null)} />
+            <br /><br />
+
+            <button onClick={uploadImage} style={{ padding: "8px" }}>
+                        Upload Image
+                    </button>
+
+            <br /><br /> {status &&
+            <div>{status}</div>}
+        </div>
+        ); } const root = ReactDOM.createRoot(document.getElementById("root")); root.render(
+        <App />);
+    </script>
+
+</body>
+
+</html>
