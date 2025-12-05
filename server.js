@@ -16,13 +16,11 @@ const storage = multer.diskStorage({
 
         let fileName = "default.jpg";
 
-        if (rawName.includes("tom")) {
-            fileName = "tom.jpg";
-        } else if (rawName.includes("jerry")) {
-            fileName = "jerry.jpg";
-        } else if (rawName.includes("dog")) {
-            fileName = "dog.jpg";
-        }
+        ["tom", "jerry", "dog"].forEach(item => {
+            if (rawName.includes(item)) {
+                fileName = item + ".jpg";
+            }
+        });
 
         cb(null, fileName);
     }
