@@ -25,7 +25,7 @@
             <input value={searchText} onChange={e=> setSearchText(e.target.value)} placeholder="Type something like 'tom'" style={{ width: "300px", padding: "8px" }} />
 
             <button onClick={searchImage} style={{ padding: "8px", marginLeft: "8px" }}>
-                        Find Picture
+                        Show Image
                     </button>
 
             <br /><br />
@@ -35,6 +35,10 @@
             <hr />
 
             <h2>Upload or Replace Character Image</h2>
+            <p style={{ fontSize: "13px", color: "gray" }}>
+                Allowed names: tom, jerry, dog
+            </p>
+
 
             <input value={uploadName} onChange={e=> setUploadName(e.target.value)} placeholder="Character name (tom / jerry / dog)" style={{ width: "300px", padding: "8px" }} />
             <br /><br />
